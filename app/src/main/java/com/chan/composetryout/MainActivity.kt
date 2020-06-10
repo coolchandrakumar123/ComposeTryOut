@@ -13,8 +13,8 @@ class MainActivity : AppCompatActivity() {
         val context = this
         setContent {
             //inflateAndroidView()
-            //MarkDownParser()
-            inflateAdapterList()
+            MarkDownParser()
+            //inflateAdapterList()
         }
     }
 }

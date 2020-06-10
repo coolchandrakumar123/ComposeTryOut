@@ -3,6 +3,7 @@ package com.chan.composetryout.compose
 import android.content.Context
 import android.util.Log
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.TextView
 import androidx.compose.Composable
 import androidx.ui.core.ContextAmbient
@@ -24,20 +25,19 @@ fun MarkDownParser() {
    **I'm your boss**
    ![haha](//hello.com)
    """.trimIndent()
-    Log.d("ChanLog", "MarkDownParser: Inside")
-    val ctx:Context? = ContextAmbient.current
+    val ctx:Context = ContextAmbient.current
     //val html = parseMd(kotlin)
     Column {
-        Text(text = kotlin)
-        ctx?.let {
-            Log.d("ChanLog", "Context: NonNull")
-            //AndroidView(view = textview(ctx, kotlin))
-            AndroidView(view = webview(ctx, kotlin))
-        }?: kotlin.run {
-            Log.d("ChanLog", "Context: Null")
-        }
+        Text(text = "Title")
+        AndroidView(view = webview(ctx, kotlin+"WebView"))
+        AndroidView(view = textview(ctx, kotlin))
     }
 }
-fun webview(ctx: Context, html: String) = WebView(ctx).apply { loadData(html, "text/html", "utf-8") }
+
+fun webview(ctx: Context, html: String) = WebView(ctx).apply {
+    this.webViewClient = WebViewClient()
+    loadData("<html><body><h1>Chandran-WebView</h1></body></html>", "text/html", "utf-8")
+    //loadUrl("https://www.google.com/")
+}
 
 fun textview(ctx: Context, value: String) = TextView(ctx).apply { text = value }
