@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-android-extensions'
 }
 
-def compose_version =  "0.1.0-dev12"
+def compose_version =  "0.1.0-dev14"
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
