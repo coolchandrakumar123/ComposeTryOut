@@ -3,6 +3,8 @@ package com.chan.composetryout
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.ui.core.Modifier
 import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
@@ -21,6 +23,11 @@ class MainActivity : AppCompatActivity() {
             Column {
                 Row {
                     Button(onClick = {
+                        navigateTo(Screen.HOME)
+                    }, modifier = Modifier.padding(all = 4.dp)) {
+                        Text(text = "Home")
+                    }
+                    Button(onClick = {
                         navigateTo(Screen.LIST)
                     }, modifier = Modifier.padding(all = 4.dp)) {
                         Text(text = "List")
@@ -31,9 +38,9 @@ class MainActivity : AppCompatActivity() {
                         Text(text = "AndroidView")
                     }
                     Button(onClick = {
-                        navigateTo(Screen.HOME)
+                        test.postValue("Modified Thread Content")
                     }, modifier = Modifier.padding(all = 4.dp)) {
-                        Text(text = "Home")
+                        Text(text = "Data-WebView")
                     }
                 }
 
@@ -42,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    val test = MutableLiveData<Any>()
     @Composable
     private fun inflateScreens() {
         when(AppStatus.currentScreen) {
@@ -52,7 +60,9 @@ class MainActivity : AppCompatActivity() {
                 //inflateAndroidView()
                 inflateAdapterList()
             }
-            Screen.ANDROIDVIEW -> MarkDownParser()
+            Screen.ANDROIDVIEW -> MarkDownParser() {
+                test
+            }
         }
     }
 }
