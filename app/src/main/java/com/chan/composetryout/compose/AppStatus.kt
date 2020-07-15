@@ -9,7 +9,7 @@ object AppStatus {
 }
 
 enum class Screen{
-    HOME, LIST, ANDROIDVIEW
+    HOME, LIST, ANDROIDVIEW, OBSERVE_PATTERN
 }
 
 fun navigateTo(destination: Screen) {
