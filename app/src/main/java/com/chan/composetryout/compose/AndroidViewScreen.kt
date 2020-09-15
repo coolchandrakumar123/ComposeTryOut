@@ -5,15 +5,16 @@ import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.TextView
-import androidx.compose.Composable
 import androidx.lifecycle.LiveData
-import androidx.ui.core.ContextAmbient
-import androidx.ui.core.Modifier
-import androidx.ui.foundation.Text
-import androidx.ui.foundation.clickable
-import androidx.ui.layout.Column
-import androidx.ui.livedata.observeAsState
-import androidx.ui.viewinterop.AndroidView
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.foundation.Text
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.ContextAmbient
+import androidx.compose.ui.viewinterop.AndroidView
 
 @Composable
 fun inflateAndroidView() {
@@ -36,7 +37,10 @@ fun MarkDownParser(valueObserver: (String)-> LiveData<Any>?) {
         val test = valueObserver.invoke("threadWebView")?.observeAsState("Initial Content")
         //Text(text = "Title-${test?.value}")
         val webView = emitWebView(ctx)
-        AndroidView(view = webView)
+        AndroidView(viewBlock = {
+            //emitWebView(it)
+            webView
+        })
         (test?.value as? String?)?.let {
             webView.setWebContent(it)
         }

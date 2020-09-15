@@ -1,19 +1,19 @@
 package com.chan.composetryout.compose
 
-import androidx.compose.*
-import androidx.ui.core.Alignment
-import androidx.ui.core.Modifier
-import androidx.ui.foundation.AdapterList
-import androidx.ui.foundation.Text
-import androidx.ui.graphics.Color
-import androidx.ui.layout.Column
-import androidx.ui.layout.fillMaxWidth
-import androidx.ui.layout.padding
-import androidx.ui.layout.wrapContentWidth
-import androidx.ui.material.Divider
-import androidx.ui.text.TextStyle
-import androidx.ui.unit.dp
-import androidx.ui.unit.sp
+import androidx.compose.foundation.Text
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Divider
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.onActive
+import androidx.compose.runtime.state
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 data class AdapterValueList(
     val data: ArrayList<UIValue>,
@@ -57,7 +57,7 @@ internal fun LoadMoreAdapterList(
     itemList: AdapterValueList,
     onLoadMore: () -> Unit
 ) {
-    AdapterList(data = itemList.data) { data ->
+    /*AdapterList(data = itemList.data) { data ->
         ItemViewHolder(
             data = data,
             positionObserver = { position ->
@@ -67,7 +67,7 @@ internal fun LoadMoreAdapterList(
                 }
             }
         )
-    }
+    }*/
 }
 
 @Composable

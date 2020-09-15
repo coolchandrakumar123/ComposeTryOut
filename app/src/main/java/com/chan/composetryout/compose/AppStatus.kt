@@ -1,11 +1,9 @@
 package com.chan.composetryout.compose
 
-import androidx.compose.getValue
-import androidx.compose.mutableStateOf
-import androidx.compose.setValue
+import androidx.compose.runtime.mutableStateOf
 
 object AppStatus {
-    var currentScreen by mutableStateOf<Screen>(Screen.HOME)
+    var currentScreen = Screen.HOME
 }
 
 enum class Screen{
