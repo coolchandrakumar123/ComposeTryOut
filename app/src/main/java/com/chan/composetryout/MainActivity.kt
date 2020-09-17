@@ -20,6 +20,7 @@ import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawShadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -34,7 +35,8 @@ class MainActivity : AppCompatActivity() {
         setContent {
             //inflateNavigateScreen()
             //helloWorld()
-            androidViewColor()
+            //androidViewColor()
+            MarkDownParser()
         }
     }
 
@@ -56,20 +58,20 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     private fun androidViewColor() {
-        MaterialTheme(colors = themeColor) {
-            AndroidView(viewBlock = { context ->
-                android.widget.EditText(context).apply {
-                    layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    )
-                    setText("HelloWorld")
-                    //setBackgroundColor(android.graphics.Color.BLUE)
-                    //ThisPart
-                    //setBackgroundColor(android.graphics.Color.parseColor("#${MaterialTheme.colors.background.value}"))
-                }
-            })
-        }
+        AndroidView(viewBlock = { context ->
+            android.widget.EditText(context).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+            }
+        }, update = { editText ->
+            //editText.setBackgroundColor(themeColor.background.toArgb())
+            editText.setTextColor(themeColor.background.toArgb())
+        })
+        /*MaterialTheme(colors = themeColor) {
+
+        }*/
     }
 
     @Composable
