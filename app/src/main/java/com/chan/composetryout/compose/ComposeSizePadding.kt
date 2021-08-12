@@ -37,7 +37,7 @@ fun RowWithThreeItem() {
 
 @Composable
 fun TextWithSize(modifier: Modifier, valueText: String) {
-    val modifierLocal = modifier.then(Modifier.getWidthModifier())
+    val modifierLocal = modifier.then(Modifier.wrapContentWidth())
     Text(
         text = valueText,
         style = TextStyle(fontSize = 20.sp),
@@ -65,8 +65,4 @@ fun ColumnWithTwoItem() {
             modifier = modifier
         )
     }
-}
-
-fun Modifier.getWidthModifier() = kotlin.run {
-    this.then(Modifier.wrapContentWidth())
 }
