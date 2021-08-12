@@ -51,6 +51,12 @@ android {
         kotlinCompilerVersion "1.4.0"
         kotlinCompilerExtensionVersion "$compose_version"
     }
+    testOptions {
+        animationsDisabled = true
+    }
+    adbOptions {
+        installOptions '-g', '-r'
+    }
 }
 
 dependencies {
@@ -64,6 +70,9 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    // Android runner and rules support
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
 
     /*implementation "androidx.compose.runtime:runtime:$compose_version"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"

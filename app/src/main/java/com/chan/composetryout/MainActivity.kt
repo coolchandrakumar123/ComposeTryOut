@@ -10,22 +10,22 @@ import androidx.lifecycle.MutableLiveData
 import com.chan.composetryout.compose.*
 
 class MainActivity : AppCompatActivity() {
-    var liveData = MutableLiveData<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
+        setContentView(R.layout.activity_main)
+        /*setContent {
             //SimpleTwoItems()
-            /*SimpleTwoItemWithObserver(
+            *//*SimpleTwoItemWithObserver(
                 onClick = {
                     liveData.postValue("${liveData.value},Clicked")
                 },
                 observer = {
                     liveData = it
                 }
-            )*/
+            )*//*
             //RowWithThreeItem()
             RowColumnThreeItem()
-        }
+        }*/
     }
 
 }
