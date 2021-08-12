@@ -7,10 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.chan.composetryout.compose.RowWithThreeItem
-import com.chan.composetryout.compose.SimpleTwoItemWithObserver
-import com.chan.composetryout.compose.SimpleTwoItems
-import com.chan.composetryout.compose.SingleText
+import com.chan.composetryout.compose.*
 
 class MainActivity : AppCompatActivity() {
     var liveData = MutableLiveData<String>()
@@ -26,7 +23,8 @@ class MainActivity : AppCompatActivity() {
                     liveData = it
                 }
             )*/
-            RowWithThreeItem()
+            //RowWithThreeItem()
+            RowColumnThreeItem()
         }
     }
 
