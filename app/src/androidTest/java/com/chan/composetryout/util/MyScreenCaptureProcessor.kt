@@ -1,6 +1,8 @@
 package com.chan.composetryout.util
 
-import androidx.test.InstrumentationRegistry.getTargetContext
+import android.os.Environment
+import android.util.Log
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.screenshot.BasicScreenCaptureProcessor
 import java.io.File
 
@@ -11,11 +13,14 @@ import java.io.File
 class MyScreenCaptureProcessor : BasicScreenCaptureProcessor() {
 
     init {
-        val folder = File(
-            getTargetContext().externalCacheDir!!.absolutePath + "/screenshots/"
-        )
-        if (!folder.exists()) {
-            folder.mkdirs()
+        Log.d("ChanLog", "MyScreenCaptureProcessor: Init")
+        InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
+            val folder = File(it.absolutePath + "/screenshots/")
+            if (!folder.exists()) {
+                folder.mkdirs()
+            }
+            this.mDefaultScreenshotPath = folder
+            Log.d("ChanLog", "MyScreenCaptureProcessor: Path- ${folder.absolutePath}")
         }
         /*this.mDefaultScreenshotPath = File(
             File(
@@ -24,7 +29,6 @@ class MyScreenCaptureProcessor : BasicScreenCaptureProcessor() {
             ).absolutePath,
             SCREENSHOTS_FOLDER_NAME
         )*/
-        this.mDefaultScreenshotPath = folder
     }
 
     override fun getFilename(prefix: String): String = prefix

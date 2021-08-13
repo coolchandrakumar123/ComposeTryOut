@@ -11,15 +11,15 @@ import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.chan.composetryout.util.ScreenshotTestRule
-import com.chan.composetryout.util.takeScreenshot
 import org.junit.Test
-import org.junit.rules.RuleChain
-import org.junit.rules.TestRule
+import org.junit.runner.RunWith
 
 /**
  * Created by chandra-1765$ on 12/08/21$.
  */
+@RunWith(AndroidJUnit4::class)
 class MainActivityTest {
 
     @get:Rule
@@ -29,7 +29,7 @@ class MainActivityTest {
     val screenshotTestRule = ScreenshotTestRule()
 
     /*@get:Rule
-    val screenshotTestRule: TestRule = RuleChain
+    val chainRule: TestRule = RuleChain
         .outerRule(mActivityRule)
         .around(ScreenshotTestRule())*/
 
@@ -39,6 +39,7 @@ class MainActivityTest {
         Log.d("ChanLog", "ensureTextChangesWork: Starting")
         onView(withId(R.id.helloWorldLabel))
             .perform(typeText("ENTER CHANDRAKUMAR"))
+        Log.d("ChanLog", "ensureTextChangesWork: NextLine")
         Thread.sleep(1000)
         Log.d("ChanLog", "ensureTextChangesWork: Completed")
         onView(withId(R.id.helloWorldLabel))

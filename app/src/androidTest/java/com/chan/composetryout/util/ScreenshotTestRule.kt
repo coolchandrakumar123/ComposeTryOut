@@ -9,8 +9,8 @@ import org.junit.runner.Description
  */
 class ScreenshotTestRule: TestWatcher() {
     override fun finished(description: Description?) {
-        super.finished(description)
-        Log.d("ChanLog", "finished: ")
-        takeScreenshot("helloWorldNew")
+        //super.finished(description)
+        Log.d("ChanLog", "ScreenshotTestRule finished: ")
+        takeScreenshot("TestImage_${System.currentTimeMillis()}")
     }
 }
