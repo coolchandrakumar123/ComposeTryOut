@@ -8,13 +8,18 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/helloWorldLabel"
+        android:id="@+id/helloWorldEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="24dp"
+        tools:text="EditTextFirstLine"/>
+
+    <TextView
+        android:id="@+id/helloWorldTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        tools:text="TextViewSecondLine"/>
 
     <FrameLayout
         android:id="@+id/compose_wrapper"

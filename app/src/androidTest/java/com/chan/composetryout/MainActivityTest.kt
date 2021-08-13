@@ -5,14 +5,14 @@ import androidx.test.rule.ActivityTestRule
 import org.junit.Rule
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.clearText
+import androidx.test.espresso.action.ViewActions.*
 
-import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.chan.composetryout.util.ScreenshotTestRule
+import com.chan.composetryout.util.customReplaceText
 import com.chan.composetryout.util.takeScreenshot
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,18 +38,20 @@ class MainActivityTest {
     fun ensureTextChangesWork() {
         // Type text and then press the button.
         Log.d("ChanLog", "ensureTextChangesWork: Starting")
-        onView(withId(R.id.helloWorldLabel))
+        onView(withId(R.id.helloWorldEditText))
             .perform(typeText("ENTER CHANDRAKUMAR"))
+        onView(withId(R.id.helloWorldTextView))
+            .perform(customReplaceText("LABEL CHANDRAKUMAR"))
         Log.d("ChanLog", "ensureTextChangesWork: NextLine")
         takeScreenshot()
         Thread.sleep(1000)
         Log.d("ChanLog", "ensureTextChangesWork: Completed")
-        onView(withId(R.id.helloWorldLabel))
+        onView(withId(R.id.helloWorldEditText))
             .perform(clearText())
-        onView(withId(R.id.helloWorldLabel))
+        onView(withId(R.id.helloWorldEditText))
             .perform(typeText("EXIT CHANDRAKUMAR"))
         Thread.sleep(1000)
         // Check that the text was changed.
-        onView(withId(R.id.helloWorldLabel)).check(matches(withText("EXIT CHANDRAKUMAR")))
+        onView(withId(R.id.helloWorldEditText)).check(matches(withText("EXIT CHANDRAKUMAR")))
     }
 }
