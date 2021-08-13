@@ -13,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.chan.composetryout.util.ScreenshotTestRule
+import com.chan.composetryout.util.takeScreenshot
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -40,6 +41,7 @@ class MainActivityTest {
         onView(withId(R.id.helloWorldLabel))
             .perform(typeText("ENTER CHANDRAKUMAR"))
         Log.d("ChanLog", "ensureTextChangesWork: NextLine")
+        takeScreenshot()
         Thread.sleep(1000)
         Log.d("ChanLog", "ensureTextChangesWork: Completed")
         onView(withId(R.id.helloWorldLabel))

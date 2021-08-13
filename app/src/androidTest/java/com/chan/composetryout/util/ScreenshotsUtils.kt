@@ -8,7 +8,7 @@ import java.io.IOException
  * Created by chandra-1765$ on 12/08/21$.
  */
 
-fun takeScreenshot(screenShotName: String) {
+fun takeScreenshot(screenShotName: String = "TestImage_${System.currentTimeMillis()}") {
     Log.d("ChanLog", "Taking screenshot of '$screenShotName'")
     val screenCapture = Screenshot.capture()
     val processors = setOf(MyScreenCaptureProcessor())

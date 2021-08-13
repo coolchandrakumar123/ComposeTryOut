@@ -53,6 +53,7 @@ android {
     }
     testOptions {
         animationsDisabled = true
+        //execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
     adbOptions {
         installOptions '-g', '-r'
@@ -73,6 +74,7 @@ dependencies {
     // Android runner and rules support
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test:rules:1.1.0'
+    //androidTestUtil 'androidx.test:orchestrator:1.1.0'
 
     /*implementation "androidx.compose.runtime:runtime:$compose_version"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"

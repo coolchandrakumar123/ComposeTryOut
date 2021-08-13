@@ -12,6 +12,10 @@ import java.io.File
  */
 class MyScreenCaptureProcessor : BasicScreenCaptureProcessor() {
 
+    /*
+     * /storage/emulated/0/Android/data/com.chan.composetryout/files/Pictures/screenshots
+     * /sdcard/Android/data/<your app>/files/Pictures/screenshots
+     */
     init {
         Log.d("ChanLog", "MyScreenCaptureProcessor: Init")
         InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.let {
