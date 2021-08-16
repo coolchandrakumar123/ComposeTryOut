@@ -12,20 +12,25 @@ import com.chan.composetryout.compose.*
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        /*setContent {
+        //setContentView(R.layout.activity_main)
+        setComposeView()
+    }
+
+    private fun setComposeView() {
+        setContent {
             //SimpleTwoItems()
-            *//*SimpleTwoItemWithObserver(
+            /*SimpleTwoItemWithObserver(
                 onClick = {
                     liveData.postValue("${liveData.value},Clicked")
                 },
                 observer = {
                     liveData = it
                 }
-            )*//*
+            )*/
             //RowWithThreeItem()
-            RowColumnThreeItem()
-        }*/
+            //RowColumnThreeItem()
+            SimpleLazyColumnDemo()
+        }
     }
 
 }
