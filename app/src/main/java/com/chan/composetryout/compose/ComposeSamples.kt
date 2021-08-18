@@ -1,6 +1,7 @@
 package com.chan.composetryout.compose
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,7 +14,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,6 +55,7 @@ fun SingleText(valueText: String) {
         text = valueText,
         style = TextStyle(fontSize = 20.sp),
         modifier = Modifier
+            .testTag("singleText")
             .fillMaxWidth()
             .padding(16.dp)
     )
@@ -63,7 +67,9 @@ fun SimpleTwoItems() {
     Column {
         var valueText by remember { mutableStateOf("Chan") }
         //var valueText = "Chan"
+        val context = LocalContext.current
         SingleButton {
+            Toast.makeText(context, "Item Clicked", Toast.LENGTH_SHORT).show()
             valueText += "Clicked"
         }
         if (valueText.isNotEmpty()) {
