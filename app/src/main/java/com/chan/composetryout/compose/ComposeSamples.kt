@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -21,6 +22,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
 import androidx.lifecycle.MutableLiveData
 
 /**
@@ -74,6 +76,44 @@ fun SimpleTwoItems() {
         }
         if (valueText.isNotEmpty()) {
             SingleText(valueText)
+        }
+    }
+}
+
+@Preview
+@Composable
+fun SimpleTwoItemsWithToast() {
+    Column {
+        var valueText by remember { mutableStateOf("Chan") }
+        //var valueText = "Chan"
+        val context = LocalContext.current
+        var showPopup by remember { mutableStateOf(false) }
+        SingleButton {
+            Toast.makeText(context, "Item Clicked", Toast.LENGTH_SHORT).show()
+            valueText += "Clicked"
+            showPopup = !showPopup
+        }
+        Box {
+            if (valueText.isNotEmpty()) {
+                SingleText(valueText)
+            }
+            if (showPopup) {
+                val cornerSize = 4.dp
+                Popup(
+                    alignment = Alignment.TopCenter,
+                    onDismissRequest = {
+                        showPopup = false
+                    }) {
+                    // Draw a rectangle shape with rounded corners inside the popup
+                    Box(
+                        Modifier
+                            .background(Color.Black, RoundedCornerShape(cornerSize))
+                            .padding(all = 4.dp)
+                    ) {
+                        Text(text = "Toast Content", color = Color.White)
+                    }
+                }
+            }
         }
     }
 }
