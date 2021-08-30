@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.chan.composetryout.compose.SimpleTwoItems
+import com.chan.composetryout.compose.SingleEditText
 
 class ComposeMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +14,7 @@ class ComposeMainActivity : AppCompatActivity() {
 
     private fun setComposeView() {
         setContent {
-            SimpleTwoItems()
+            //SimpleTwoItems()
             /*SimpleTwoItemWithObserver(
                 onClick = {
                     liveData.postValue("${liveData.value},Clicked")
@@ -25,6 +26,7 @@ class ComposeMainActivity : AppCompatActivity() {
             //RowWithThreeItem()
             //RowColumnThreeItem()
             //SimpleLazyColumnDemo()
+            SingleEditText()
         }
     }
 
