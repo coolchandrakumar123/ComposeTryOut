@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.chan.composetryout.compose.SimpleTwoItems
+import com.chan.composetryout.compose.SingleCheckBox
 import com.chan.composetryout.compose.SingleEditText
 
 class ComposeMainActivity : AppCompatActivity() {
@@ -26,7 +27,8 @@ class ComposeMainActivity : AppCompatActivity() {
             //RowWithThreeItem()
             //RowColumnThreeItem()
             //SimpleLazyColumnDemo()
-            SingleEditText()
+            //SingleEditText()
+            SingleCheckBox()
         }
     }
 

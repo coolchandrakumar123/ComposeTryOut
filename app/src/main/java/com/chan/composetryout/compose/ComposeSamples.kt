@@ -2,9 +2,7 @@ package com.chan.composetryout.compose
 
 import android.util.Log
 import android.widget.Toast
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -15,8 +13,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.RelocationRequester
+import androidx.compose.ui.layout.relocationRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.testTag
@@ -26,6 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * Created by chandra-1765$ on 05/08/21$.
@@ -146,7 +152,12 @@ fun SingleButton(onClick: () -> Unit) {
 @Composable
 fun SingleEditText() {
 
-    Column(modifier = Modifier.padding(all = 16.dp).fillMaxWidth()) {
+    Column(modifier = Modifier
+        .padding(all = 16.dp)
+        .fillMaxWidth()
+        .verticalScroll(
+            rememberScrollState()
+        )) {
         val placeHolderData = "EditText Place Holder LengthLine check to avoid nextLines..."
         SimpleBasicTextField(placeHolderData = placeHolderData)
         Spacer(modifier = Modifier.height(height = 16.dp))
@@ -163,22 +174,39 @@ fun SingleEditText() {
             SimpleTextField()
             SimpleTextField()
         }
+        Spacer(modifier = Modifier.height(height = 16.dp))
+        SimpleMaterialOutlineTextField()
+        Spacer(modifier = Modifier.height(height = 16.dp))
+        SimpleBasicTextField(singleLine = false)
+        Spacer(modifier = Modifier.height(height = 16.dp))
     }
 }
 
+@DelicateCoroutinesApi
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun SimpleBasicTextField(placeHolderData: String = "") {
+fun SimpleBasicTextField(placeHolderData: String = "", singleLine: Boolean = true) {
     val (text, setText) = remember { mutableStateOf("") }
+    val relocationRequester = RelocationRequester()
     BasicTextField(
         value = text,
         onValueChange = setText,
         maxLines = 1,
-        singleLine = true,
+        singleLine = singleLine,
         modifier = Modifier
             .fillMaxWidth()
             .background(color = Color.Blue, shape = RoundedCornerShape(8.dp))
             .border(width = 2.dp, color = Color.Red, shape = RoundedCornerShape(8.dp))
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .relocationRequester(relocationRequester)
+            .onFocusEvent {
+                if (it.isFocused) {
+                    GlobalScope.launch {
+                        delay(200)
+                        relocationRequester.bringIntoView()
+                    }
+                }
+            },
         textStyle = TextStyle(fontSize = 20.sp, color = Color.White),
         decorationBox = {
             if(placeHolderData.isNotEmpty() && text.isEmpty()) {
@@ -231,4 +259,64 @@ fun SimpleOutlineTextField() {
             Text(text = "EditText")
         }
     )
+}
+
+@Composable
+fun SimpleMaterialOutlineTextField() {
+    val (text, setText) = remember { mutableStateOf("") }
+    OutlinedTextField(
+        value = text,
+        onValueChange = setText,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Color.Red,
+            unfocusedBorderColor = Color.Red,
+            placeholderColor = Color.Black.copy(alpha = 0.22f),
+            textColor = Color.Black
+        ),
+        label = {
+            Text(text = "EditText", color = Color.Black.copy(alpha = 0.5f))
+        }
+    )
+}
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+fun SingleCheckBox() {
+    /*Text(
+        text = valueText,
+        style = TextStyle(fontSize = 20.sp),
+        modifier = Modifier
+            .testTag("singleText")
+            .fillMaxWidth()
+            .padding(16.dp)
+    )*/
+    val modifier = Modifier
+        .padding(16.dp)
+    Column {
+        val (checked, setChecked) = remember { mutableStateOf(false) }
+        Checkbox(
+            checked = checked,
+            onCheckedChange = setChecked,
+            modifier = modifier,
+            colors = CheckboxDefaults.colors(
+                checkedColor = Color.Black,
+                checkmarkColor = Color.Black
+            )
+        )
+        val selected = remember { mutableStateOf(false) }
+
+        RadioButton(
+            selected = selected.value,
+            onClick = {
+                selected.value = !selected.value
+            },
+            modifier = modifier
+        )
+        val (switchChecked, setSwitchChecked) = remember { mutableStateOf(false) }
+        Switch(
+            checked = switchChecked,
+            onCheckedChange = setSwitchChecked,
+            modifier = modifier
+        )
+    }
 }
