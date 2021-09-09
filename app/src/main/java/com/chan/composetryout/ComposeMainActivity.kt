@@ -3,10 +3,7 @@ package com.chan.composetryout
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import com.chan.composetryout.compose.SimpleLazyColumnList
-import com.chan.composetryout.compose.SimpleTwoItems
-import com.chan.composetryout.compose.SingleCheckBox
-import com.chan.composetryout.compose.SingleEditText
+import com.chan.composetryout.compose.*
 
 class ComposeMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +27,9 @@ class ComposeMainActivity : AppCompatActivity() {
             //SimpleLazyColumnDemo()
             //SingleEditText()
             //SingleCheckBox()
-            SimpleLazyColumnList()
+            //SimpleLazyColumnList()
+            //NestedScrollList()
+            SimpleFlowRowList()
         }
     }
 

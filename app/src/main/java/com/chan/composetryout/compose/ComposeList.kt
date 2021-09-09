@@ -1,12 +1,9 @@
 package com.chan.composetryout.compose
 
 import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -20,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.accompanist.flowlayout.FlowColumn
+import com.google.accompanist.flowlayout.FlowRow
 
 /**
  * Created by chandra-1765$ on 16/08/21$.
@@ -63,9 +62,37 @@ fun SimpleLazyColumnList(liveData: LiveData<List<String>>) {
 }
 
 @Composable
+fun NestedScrollList() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(all = 16.dp)
+            .verticalScroll(state = rememberScrollState())
+    ) {
+        noteList.forEach {
+            Text(text = "Column-${it.content}")
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(all = 16.dp)
+        ) {
+            Text(text = "SecondList")
+            noteList.forEach {
+                Text(text = "Column-${it.content}")
+            }
+        }
+        //SimpleLazyColumnList()
+    }
+}
+
+private val noteList = arrayListOf(Note(1, "One"), Note(2,"Two"), Note(3,"Three"),
+    Note(4,"Four"), Note(5,"Five"))
+
+@Composable
 fun SimpleLazyColumnList() {
-    val data = remember { mutableStateListOf<Note>(Note(1, "One"), Note(2,"Two"), Note(3,"Three"),
-        Note(4,"Four"), Note(5,"Five")) }
+    val data = remember { mutableStateListOf<Note>() }
+    data.addAll(noteList)
     var id = 6
     Column {
         Row(modifier = Modifier.padding(all = 16.dp)) {
@@ -75,7 +102,7 @@ fun SimpleLazyColumnList() {
                     .background(color = Color.Blue)
                     .clickable {
                         //data.add(Note(6,"Added on Click:}"))
-                        data.add(3, Note(id++,"Added on Click:}"))
+                        data.add(3, Note(id++, "Added on Click:}"))
                     }
                     .padding(16.dp)
             )
@@ -112,7 +139,6 @@ fun SimpleLazyColumn(data: List<String>) {
             )
         }
     }
-
 }
 
 data class Note(val id: Int, val content: String)
@@ -122,7 +148,7 @@ fun SimpleLazyColumnList(data: List<Note>) {
     val notes by remember {
         mutableStateOf(data)
     }
-    LazyColumn(
+    LazyRow(
         modifier = Modifier
             .padding(top = 16.dp),
         state = listState
@@ -155,4 +181,121 @@ fun SimpleListItem(value: String) {
         color = Color.Blue,
         fontSize = 22.sp
     )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun SimpleFlowRowList() {
+    val listState = rememberLazyListState()
+    val notes by remember {
+        mutableStateOf(noteList)
+    }
+    Column(
+        modifier = Modifier.verticalScroll(state = rememberScrollState())
+    ) {
+        Text(text = "LazyRow-OverLap")
+        LazyRow {
+            itemsIndexed(notes) { index, item ->
+                val modifier = if(index == 0) {
+                    Modifier
+                        .background(
+                            color = Color.LightGray,
+                            shape = RoundedCornerShape(size = 20.dp)
+                        )
+                        .padding(all = 16.dp)
+                } else {
+                    Modifier
+                        .offset(x = ((-20) * index).dp)
+                        .background(
+                            color = Color.LightGray,
+                            shape = RoundedCornerShape(size = 20.dp)
+                        )
+                        .border(width = 1.dp, color = Color.Red)
+                        .padding(all = 16.dp)
+                }
+                Text(
+                    modifier = modifier,
+                    text = item.content,
+                    color = Color.Blue,
+                    fontSize = 22.sp
+                )
+            }
+        }
+        Text(text = "FlowRow")
+        FlowRow {
+            notes.forEach { item ->
+                Text(
+                    modifier = Modifier
+                        .background(
+                            color = Color.LightGray,
+                            shape = RoundedCornerShape(size = 20.dp)
+                        )
+                        .padding(all = 16.dp),
+                    text = item.content,
+                    color = Color.Blue,
+                    fontSize = 22.sp
+                )
+            }
+        }
+        Text(text = "GridView")
+        /*LazyVerticalGrid(cells = GridCells.Fixed(count = 3) ) {
+            items(notes) { item ->
+                Text(
+                    modifier = Modifier
+                        .background(
+                            color = Color.LightGray,
+                            shape = RoundedCornerShape(size = 20.dp)
+                        )
+                        .padding(all = 16.dp),
+                    text = item.content,
+                    color = Color.Blue,
+                    fontSize = 22.sp
+                )
+            }
+        }*/
+        VerticalGrid(totalSize = notes.size, nColumns = 3) { index ->
+            Text(
+                modifier = Modifier
+                    .background(
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(size = 20.dp)
+                    )
+                    .padding(all = 16.dp),
+                text = notes[index].content,
+                color = Color.Blue,
+                fontSize = 22.sp
+            )
+        }
+    }
+}
+
+@Composable
+private fun VerticalGrid(
+    modifier: Modifier = Modifier,
+    totalSize:Int,
+    nColumns: Int,
+    content: @Composable (BoxScope.(itemIndex: Int) -> Unit)
+) {
+    val rows = (totalSize + nColumns - 1) / nColumns
+    Column(
+        modifier = modifier
+    ){
+        for (rowIndex in 0 until rows) {
+            Row {
+                for (columnIndex in 0 until nColumns) {
+                    val itemIndex = rowIndex * nColumns + columnIndex
+                    if (itemIndex < totalSize) {
+                        Box(
+                            modifier = Modifier.weight(1f, fill = true),
+                            propagateMinConstraints = true
+                        ) {
+                            content(itemIndex)
+                        }
+                    } else {
+                        Spacer(Modifier.weight(1f, fill = true))
+                    }
+                }
+            }
+        }
+    }
 }
