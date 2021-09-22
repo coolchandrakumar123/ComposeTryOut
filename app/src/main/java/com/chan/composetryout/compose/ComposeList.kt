@@ -92,6 +92,9 @@ private val noteList = arrayListOf(Note(1, "One"), Note(2,"Two"), Note(3,"Three"
 @Composable
 fun SimpleLazyColumnList() {
     val data = remember { mutableStateListOf<Note>() }
+    for (i in 6..20) {
+        noteList.add(Note(i, "Item-$i"))
+    }
     data.addAll(noteList)
     var id = 6
     Column {
@@ -148,7 +151,7 @@ fun SimpleLazyColumnList(data: List<Note>) {
     val notes by remember {
         mutableStateOf(data)
     }
-    LazyRow(
+    LazyColumn(
         modifier = Modifier
             .padding(top = 16.dp),
         state = listState
@@ -172,12 +175,15 @@ fun SimpleLazyColumnList(data: List<Note>) {
 @Composable
 fun SimpleListItem(value: String) {
     Log.d("ChanLog", "SimpleListItem: $value")
+    val notes by remember {
+        mutableStateOf(value)
+    }
     Text(
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .padding(all = 16.dp),
-        text = value,
+        text = notes,
         color = Color.Blue,
         fontSize = 22.sp
     )
@@ -194,7 +200,7 @@ fun SimpleFlowRowList() {
         modifier = Modifier.verticalScroll(state = rememberScrollState())
     ) {
         Text(text = "LazyRow-OverLap")
-        LazyRow {
+        /*LazyRow {
             itemsIndexed(notes) { index, item ->
                 val modifier = if(index == 0) {
                     Modifier
@@ -220,6 +226,22 @@ fun SimpleFlowRowList() {
                     fontSize = 22.sp
                 )
             }
+        }*/
+        OverLapLazyRow(
+            items = notes
+        ) { item ->
+            Text(
+                modifier = Modifier
+                    .background(
+                        color = Color.LightGray,
+                        shape = RoundedCornerShape(size = 20.dp)
+                    )
+                    .border(width = 2.dp, color = Color.Red, shape = RoundedCornerShape(size = 20.dp))
+                    .padding(all = 16.dp),
+                text = item.content,
+                color = Color.Blue,
+                fontSize = 22.sp
+            )
         }
         Text(text = "FlowRow")
         FlowRow {
@@ -253,7 +275,7 @@ fun SimpleFlowRowList() {
                 )
             }
         }*/
-        VerticalGrid(totalSize = notes.size, nColumns = 3) { index ->
+        VerticalGrid(items = notes, count = 3) { item ->
             Text(
                 modifier = Modifier
                     .background(
@@ -261,7 +283,7 @@ fun SimpleFlowRowList() {
                         shape = RoundedCornerShape(size = 20.dp)
                     )
                     .padding(all = 16.dp),
-                text = notes[index].content,
+                text = item.content,
                 color = Color.Blue,
                 fontSize = 22.sp
             )
@@ -270,26 +292,44 @@ fun SimpleFlowRowList() {
 }
 
 @Composable
-private fun VerticalGrid(
+private fun <T> OverLapLazyRow(
     modifier: Modifier = Modifier,
-    totalSize:Int,
-    nColumns: Int,
-    content: @Composable (BoxScope.(itemIndex: Int) -> Unit)
+    items: List<T>,
+    content: @Composable (BoxScope.(item: T) -> Unit)
 ) {
-    val rows = (totalSize + nColumns - 1) / nColumns
+    LazyRow(modifier = modifier) {
+        itemsIndexed(items) { index, item ->
+            Box(
+                modifier = if(index == 0) Modifier else Modifier.offset(x = ((-20) * index).dp)
+            ) {
+                content(item)
+            }
+        }
+    }
+}
+
+@Composable
+private fun <T> VerticalGrid(
+    modifier: Modifier = Modifier,
+    items: List<T>,
+    count: Int,
+    content: @Composable (BoxScope.(item: T) -> Unit)
+) {
+    val totalSize = items.size
+    val rows = (totalSize + count - 1) / count
     Column(
         modifier = modifier
     ){
         for (rowIndex in 0 until rows) {
             Row {
-                for (columnIndex in 0 until nColumns) {
-                    val itemIndex = rowIndex * nColumns + columnIndex
+                for (columnIndex in 0 until count) {
+                    val itemIndex = rowIndex * count + columnIndex
                     if (itemIndex < totalSize) {
                         Box(
                             modifier = Modifier.weight(1f, fill = true),
                             propagateMinConstraints = true
                         ) {
-                            content(itemIndex)
+                            content(items[itemIndex])
                         }
                     } else {
                         Spacer(Modifier.weight(1f, fill = true))
