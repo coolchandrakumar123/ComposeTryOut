@@ -29,7 +29,8 @@ class ComposeMainActivity : AppCompatActivity() {
             //SingleCheckBox()
             //SimpleLazyColumnList()
             //NestedScrollList()
-            SimpleFlowRowList()
+            //SimpleFlowRowList()
+            CheckObserverCase()
         }
     }
 
