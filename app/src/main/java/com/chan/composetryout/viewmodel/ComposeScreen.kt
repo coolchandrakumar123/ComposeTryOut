@@ -9,6 +9,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -30,6 +32,9 @@ fun NavigationComponent(navController: NavHostController) {
         composable("detail") {
             DetailScreen()
         }
+        composable("detailWithViewModel") {
+            DetailScreen(viewModel())
+        }
     }
 }
 
@@ -47,6 +52,9 @@ fun HomeScreen(navController: NavController) {
         Button(onClick = { navController.navigate("detail") }) {
             Text(text = "Go to detail")
         }
+        Button(onClick = { navController.navigate("detailWithViewModel") }) {
+            Text(text = "Go to detail with ViewModel")
+        }
     }
 }
 
@@ -54,5 +62,21 @@ fun HomeScreen(navController: NavController) {
 fun DetailScreen() {
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = "Detail")
+    }
+}
+
+
+@Composable
+fun DetailScreen(viewModel: DetailViewModel) {
+    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(text = viewModel.getDetailText())
+    }
+}
+
+class DetailViewModel : ViewModel() {
+
+    fun getDetailText(): String {
+        // some imaginary backend call
+        return "Detail With ViewModel"
     }
 }
