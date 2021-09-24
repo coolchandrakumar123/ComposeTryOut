@@ -320,3 +320,18 @@ fun SingleCheckBox() {
         )
     }
 }
+
+@Composable
+fun SeparatorSample() {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(text = "First Line")
+        Separator()
+    }
+}
+
+@Composable
+fun Separator() {
+    Box(modifier = Modifier.requiredHeight(29.dp).fillMaxWidth().padding(top = 28.dp)) {
+        Box(modifier = Modifier.requiredHeight(1.dp).fillMaxWidth().background(color = Color.Black))
+    }
+}

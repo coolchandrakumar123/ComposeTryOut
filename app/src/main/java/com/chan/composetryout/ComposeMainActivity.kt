@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import com.chan.composetryout.compose.*
+import com.chan.composetryout.viewmodel.ComposeScreen
 
 class ComposeMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +31,9 @@ class ComposeMainActivity : AppCompatActivity() {
             //SimpleLazyColumnList()
             //NestedScrollList()
             //SimpleFlowRowList()
-            CheckObserverCase()
+            //CheckObserverCase()
+            //SeparatorSample()
+            ComposeScreen()
         }
     }
 
