@@ -1,5 +1,6 @@
 package com.chan.composetryout.viewmodel
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,12 +21,28 @@ import androidx.navigation.compose.rememberNavController
 /**
  * Created by chandra-1765$ on 24/09/21$.
  */
+
+@Composable
+fun ComposeScreen() {
+    Scaffold {
+        val navController = rememberNavController()
+        NavigationComponent(navController)
+    }
+}
+
+val screens = arrayListOf<String>("home", "detail", "detailWithViewModel")
 @Composable
 fun NavigationComponent(navController: NavHostController) {
+    Log.d("ChanLog", "NavigationComponent: ")
     NavHost(
         navController = navController,
         startDestination = "home"
     ) {
+        /*screens.forEach { screenId ->
+            composable(screenId) {
+                NavigateScreen(navController, screenId)
+            }
+        }*/
         composable("home") {
             HomeScreen(navController)
         }
@@ -39,20 +56,29 @@ fun NavigationComponent(navController: NavHostController) {
 }
 
 @Composable
-fun ComposeScreen() {
-    Scaffold {
-        val navController = rememberNavController()
-        NavigationComponent(navController)
+fun NavigateScreen(navController: NavHostController, screenId: String) {
+    Log.d("ChanLog", "NavigateScreen: ")
+    when(screenId) {
+        "home" -> HomeScreen(navController)
+        "detail" -> DetailScreen()
+        "detailWithViewModel" -> DetailScreen(viewModel())
     }
 }
 
 @Composable
 fun HomeScreen(navController: NavController) {
+    Log.d("ChanLog", "HomeScreen: ")
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-        Button(onClick = { navController.navigate("detail") }) {
+        Button(onClick = {
+            navController.navigate("detail") {
+                restoreState = true
+            }
+        }) {
             Text(text = "Go to detail")
         }
-        Button(onClick = { navController.navigate("detailWithViewModel") }) {
+        Button(onClick = {
+            navController.navigate("detailWithViewModel")
+        }) {
             Text(text = "Go to detail with ViewModel")
         }
     }
@@ -60,6 +86,7 @@ fun HomeScreen(navController: NavController) {
 
 @Composable
 fun DetailScreen() {
+    Log.d("ChanLog", "DetailScreen: ")
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = "Detail")
     }
