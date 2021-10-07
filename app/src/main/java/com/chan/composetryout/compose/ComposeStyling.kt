@@ -9,23 +9,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 
 /**
  * Created by chandra-1765$ on 11/08/21$.
  */
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun RowWithBg() {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
+            .fillMaxSize()
             .background(color = Color.White),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -35,13 +38,16 @@ fun RowWithBg() {
         RowWithGradient()
         RowWithBorder()
         RowWithBorderAndGradient()
+        RowWithShadow()
     }
 }
 
 @Composable
 fun RowWithBgColor(value: String = "WithBgColor") {
     Box(modifier = Modifier
-        .fillMaxWidth().wrapContentHeight().padding(16.dp)) {
+        .fillMaxWidth()
+        .wrapContentHeight()
+        .padding(16.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -58,7 +64,9 @@ fun RowWithBgColor(value: String = "WithBgColor") {
 @Composable
 fun RowWithBorder(value: String = "WithBorder") {
     Box(modifier = Modifier
-        .fillMaxWidth().wrapContentHeight().padding(16.dp)) {
+        .fillMaxWidth()
+        .wrapContentHeight()
+        .padding(16.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -76,7 +84,9 @@ fun RowWithBorder(value: String = "WithBorder") {
 @Composable
 fun RowWithGradient(value: String = "WithGradient") {
     Box(modifier = Modifier
-        .fillMaxWidth().wrapContentHeight().padding(16.dp)) {
+        .fillMaxWidth()
+        .wrapContentHeight()
+        .padding(16.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -96,7 +106,9 @@ fun RowWithGradient(value: String = "WithGradient") {
 @Composable
 fun RowWithBorderAndGradient(value: String = "BgOverrideGradient") {
     Box(modifier = Modifier
-        .fillMaxWidth().wrapContentHeight().padding(16.dp)) {
+        .fillMaxWidth()
+        .wrapContentHeight()
+        .padding(16.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -129,4 +141,35 @@ fun TextWithBorder(value: String = "TextWithBorder") {
         fontSize = 22.sp,
         textAlign = TextAlign.Center
     )
+}
+
+@Composable
+fun RowWithShadow(value: String = "WithShadow") {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .wrapContentHeight()
+        .padding(16.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .requiredHeight(64.dp)
+                .border(width = 2.dp, color = Color.Red, shape = RoundedCornerShape(60.dp))
+                .shadow(elevation = 8.dp, shape = RoundedCornerShape(60.dp), clip = false)
+                .background(color = Color.White, shape = RoundedCornerShape(60.dp))
+            ,
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(text = value, color = Color.Black, fontSize = 22.sp)
+        }
+        /*Shadow(
+            color = Color(0x99000000),
+            offset = Offset(100f, 10f)
+        )*/
+        /*Shadow(
+            color: Color = Color(0xFF000000),
+        offset: Offset = Offset.Zero,
+        blurRadius: Float = 0.0f
+        )*/
+    }
 }

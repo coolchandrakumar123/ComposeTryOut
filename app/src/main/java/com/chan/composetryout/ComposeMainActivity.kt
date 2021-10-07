@@ -33,7 +33,8 @@ class ComposeMainActivity : AppCompatActivity() {
             //SimpleFlowRowList()
             //CheckObserverCase()
             //SeparatorSample()
-            ComposeScreen()
+            //ComposeScreen()
+            RowWithBg()
         }
     }
 
