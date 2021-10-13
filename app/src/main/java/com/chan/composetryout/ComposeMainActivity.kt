@@ -34,7 +34,8 @@ class ComposeMainActivity : AppCompatActivity() {
             //CheckObserverCase()
             //SeparatorSample()
             //ComposeScreen()
-            RowWithBg()
+            //RowWithBg()
+            ZStackPositioning()
         }
     }
 

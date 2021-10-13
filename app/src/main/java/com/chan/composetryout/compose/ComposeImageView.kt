@@ -4,6 +4,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -11,7 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
 
@@ -83,5 +87,46 @@ fun DotSeparator() {
             }
         }
         Text(text = "Second Item")
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun ZStackPositioning() {
+    val context = LocalContext.current
+    Scaffold(
+        modifier = Modifier.padding(16.dp)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .requiredHeight(100.dp)
+                .background(color = Color.Yellow),
+            contentAlignment = Alignment.TopStart
+        ) {
+            Box(
+                modifier = Modifier
+                    .requiredSize(40.dp)
+                    .padding(start = 10.dp, top = 10.dp)
+                    .background(color = Color.Yellow),
+            )
+            Box(
+                modifier = Modifier
+                    .requiredSize(16.dp)
+                    .background(color = Color.Green),
+            )
+
+            Text(
+                text = "Center Text Check",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .requiredHeight(60.dp)
+                    .background(color = Color.Blue),
+                style = TextStyle(
+                    color = Color.White,
+                    textAlign = TextAlign.Center
+                )
+            )
+        }
     }
 }
