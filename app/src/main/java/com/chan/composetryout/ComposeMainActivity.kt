@@ -35,7 +35,8 @@ class ComposeMainActivity : AppCompatActivity() {
             //SeparatorSample()
             //ComposeScreen()
             //RowWithBg()
-            ZStackPositioning()
+            //ZStackPositioning()
+            LazyColumnItemUpdateDemo()
         }
     }
 
