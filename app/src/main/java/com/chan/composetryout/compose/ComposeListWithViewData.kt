@@ -1,8 +1,5 @@
 package com.chan.composetryout.compose
 
-import android.animation.ArgbEvaluator
-import android.util.Log
-import androidx.annotation.ColorInt
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
@@ -10,17 +7,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.google.accompanist.flowlayout.FlowColumn
-import com.google.accompanist.flowlayout.FlowRow
 
 /**
  * Created by chandra-1765$ on 16/08/21$.
@@ -59,6 +51,7 @@ fun LazyColumnItemUpdateDemo() {
 
 }
 
+@Stable
 private class ZPlatformViewData(var key: String) {
 
     var dataValue: DataValue? = DataValue()
@@ -76,14 +69,25 @@ private class ZPlatformViewData(var key: String) {
 
     fun setData(data: String? = null): ZPlatformViewData  {
         dataValue?.data?.value = data
+        stableDataClass.data = data
         //dataValue?.data = data
         return this
     }
 
     fun setDataColor(dataColor: Color?): ZPlatformViewData  {
         this.dataColor.value = dataColor
+        stableDataClass.dataColor = dataColor
         return this
     }
+
+    val stableDataClass = StableDataClass()
+    //private set
+
+    @Stable
+    data class StableDataClass(
+        var data: String? = null,
+        var dataColor: Color? = null
+    )
 }
 
 @Composable
@@ -107,31 +111,42 @@ private fun LazyColumnViewData(data: List<ZPlatformViewData>) {
 }
 
 @Composable
-private fun ListItemViewData(value: ZPlatformViewData) {
+private fun ListItemViewData(viewData: ZPlatformViewData) {
     val data = remember {
-        value.dataValue
+        viewData.dataValue
     }
 
     val isHide = remember {
-        value.isHide
+        viewData.isHide
     }
 
     val dataColor = remember {
-        value.dataColor
+        viewData.dataColor
     }
 
-    data?.data?.value?.let {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(all = 16.dp),
-            text = it,
-            color = dataColor.value?:Color.Blue,
-            fontSize = 22.sp
-        )
-    }
+    /*data?.data?.value?.let {
+
+    }*/
+    ZDText(viewData)
+    //ZDText(value = viewData.stableDataClass.data, dataColor = viewData.stableDataClass.dataColor)
     /*if(data?.value?.isNotEmpty() == true && isHide == false) {
     }*/
+}
 
+@Composable
+private fun ZDText(viewData: ZPlatformViewData) {
+    ZDText(value = viewData.stableDataClass.data, dataColor = viewData.stableDataClass.dataColor)
+}
+
+@Composable
+private fun ZDText(value: String?, dataColor: Color?) {
+    Text(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .padding(all = 16.dp),
+        text = value?:"Empty",
+        color = dataColor?:Color.Blue,
+        fontSize = 22.sp
+    )
 }
